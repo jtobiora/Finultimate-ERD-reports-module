@@ -1,0 +1,138 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title"></ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinBar() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#64B5F6', '#FFD54F'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    borderWidth: 0.1,
+                    borderColor: 'bdbdbd',
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+
+        <script type="text/javascript" src="/scripts/input_validator.js"/>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+
+            .fixed-size {
+                table-layout: fixed;
+                word-wrap: break-word;
+            }
+
+            .information-mssg {
+                color: blue;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .error-mssg {
+                color: red;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .success-mssg {
+                color: green;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .ui-selectoneradio.ui-grid-responsive .ui-grid-col-4,
+            .ui-selectmanycheckbox.ui-grid-responsive .ui-grid-col-4{
+                padding-bottom: 10px;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <div style="overflow: auto;">
+            <h:form>
+                <p:growl id="msgs" showDetail="true" />
+                <p:panelGrid columns="2">
+                    <p:panel id="agentPerformance">
+                        <p:chart type="pie" model="#{performanceChartBean.pieModel2}" style="width:300px;height:200px" />
+                    </p:panel>
+                    <p:panel id="productTypePerf">
+                        <p:chart type="bar" model="#{performanceChartBean.barModel}" style="width:450px;height:250px" />
+                    </p:panel>
+                    <p:panel id="productTypeGuage">
+                        <p:chart type="metergauge" model="#{performanceChartBean.meterGaugeModel1}" style="width:300px;height:200px" />
+                    </p:panel>
+                    <p:panel id="sales" header="Sales Figures">
+                        <h:outputText style="font-size: 16" value="Policies Sold Today: 0 (NGN 0.00)" />
+                        <br/>
+                        <h:outputText style="font-size: 16" value="Policies This Month: 0 (NGN 0.00)" />
+                        <br/>
+                        <h:outputText style="font-size: 16" value="Policies This Year: 0 (NGN 0.00)" />
+                        <br/>
+                        <h:outputText style="font-size: 16" value="%tage of Monthly Sales: 0.00%" />
+                        <br/>
+                        <h:outputText style="font-size: 16" value="%tage of Annual Sales: 0.00%" />
+                    </p:panel>
+                    <p:panel id="totalOrders" header="Financials">
+                        <h:outputText style="font-size: 16" value="Number of Proposals Awaiting Payment: 0" />
+                        <br/>
+                        <h:outputText style="font-size: 16" value="Number of Receipts Unmatched: 0" />
+                        <br/>
+                        <h:outputText style="font-size: 16" value="Collections Due: 0" />
+                        <br/>
+                        <h:outputText style="font-size: 16" value="Collections Past Due: 0" />
+                    </p:panel>
+                    <p:panel id="pendingOrders" header="Claims">
+                        <h:outputText style="font-size: 16" value="Number of Registered Claims" />
+                        <br/>
+                        <h:outputText style="font-size: 16" value="Total Registered Claims Amount: 0" />
+                        <br/>
+                        <h:outputText style="font-size: 16" value="Total Paid Claims Amount Today: 0" />
+                        <br/>
+                        <h:outputText style="font-size: 16"  value="Total Paid Claims Amount Monthly: 0" />
+                        <br/>
+                        <h:outputText style="font-size: 16" value="Total Paid Claims Amount Annually: 0" />
+                    </p:panel>
+                    <p:panel id="totalCollections" header="Settlements">
+                        <h:outputText style="font-size: 16" value="Number of Insurance Payments Due Today: 0" />
+                        <br/>
+                        <h:outputText style="font-size: 16" value="Number of Insurance Payments Due This Month: 0" />
+                        <br/>
+                        <h:outputText style="font-size: 16" value="Number of Insurance Payments Due Next Month: 0" />
+                    </p:panel>
+                </p:panelGrid>
+                <div style="clear:both" />
+            </h:form>
+        </div>
+    </ui:define>   
+</ui:composition>

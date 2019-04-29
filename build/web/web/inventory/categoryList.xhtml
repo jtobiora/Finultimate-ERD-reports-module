@@ -1,0 +1,305 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <ui:define name="title"></ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinBar() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#64B5F6', '#FFD54F'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    borderWidth: 0.1,
+                    borderColor: 'bdbdbd',
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+
+        <script type="text/javascript" src="/scripts/input_validator.js"/>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+
+            .fixed-size {
+                table-layout: fixed;
+                word-wrap: break-word;
+            }
+
+            .information-mssg {
+                color: blue;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .error-mssg {
+                color: red;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .success-mssg {
+                color: green;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .ui-selectoneradio.ui-grid-responsive .ui-grid-col-4,
+            .ui-selectmanycheckbox.ui-grid-responsive .ui-grid-col-4{
+                padding-bottom: 10px;
+            }
+        </style>
+        <style type="text/css">
+            .Hbuttons{
+                display: inline-block;
+                text-align:center;
+                align-items: center;
+                box-shadow: none !important;
+                border-radius:0px !important;
+                font-size: 16px !important;
+                color:white !important;
+                height: 35px !important;
+                width: 100px;
+                line-height:35px;
+                vertical-align: central;
+                text-transform:  uppercase !important;
+            }
+
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <ui:fragment rendered="#{settingBean.showFormInListView}">
+            <h:form id="ServiceEntityForm">
+                <div class="card" style=" top: 200px; border-radius: 0px; margin: 0px; padding-top: 20px">
+                    <div>
+                        <p:commandButton id="newButton" class="Hbuttons" value="New" actionListener="#{categoryBean.prepareCreate()}" update="ServiceEntityForm"/>
+                        <p:button class="Hbuttons" outcome="/inventory/createCategory.xhtml" rendered="#{categoryBean.category.selected}" icon="fa fa-pencil-square-o" style="float: right; width: 50px"/>
+                        <p:button class="Hbuttons" outcome="/inventory/categoryGrid.xhtml" icon="fa fa-th" style="float: right; width: 50px"/>
+                        <p:commandButton id="nextButton" update="ServiceEntityForm ServiceEntityListForm" class="Hbuttons" style="width: 50px; float: right" value="&gt;" action="#{categoryBean.selectNext()}" disabled="#{!categoryBean.category.selected or !categoryBean.hasNext()}" />
+                        <p:commandButton id="previousButton" update="ServiceEntityForm ServiceEntityListForm" class="Hbuttons" style="width: 50px; float: right" value="&lt;" action="#{categoryBean.selectPrevious()}" disabled="#{!categoryBean.category.selected or !categoryBean.hasPrevious()}" />
+                    </div>
+                </div>
+                <div class="ui-g" >
+                    <div class="ui-g-12">
+                        <h:panelGroup layout="block" class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12">
+                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-3 ui-md-2"></h:panelGroup>
+                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-6 ui-md-8 ui-sm-12">
+                                <div class="card" style="border-radius: 0px; padding:  0px">
+                                    <p:growl id="growl" showDetail="true" sticky="true" />  
+                                    <div class="ui-g" style=" padding:  0px; margin: 0px;">
+                                        <h:panelGroup layout="block" class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12">
+                                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-3 ui-md-3 ui-sm-12" >
+                                                <p:outputLabel  value="Name" for="name" style="width: 100%; font-weight: bold"/>
+                                            </h:panelGroup> 
+                                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-9 ui-md-9 ui-sm-12" >
+                                                <p:inputText class="form-control" required="true" id="name" placeholder="CATEGORY NAME" value="#{categoryBean.category.categoryName}"  style="width: 100%"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-3 ui-md-3 ui-sm-12" >
+                                                <p:outputLabel for="parent" value="Parent" style="width: 100%; font-weight: bold"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-9 ui-md-9 ui-sm-12" >
+                                                <p:selectOneMenu id="parent" 
+                                                                 value="#{categoryBean.category.parentCategoryID}"
+                                                                 filter="true"
+                                                                 style="width: 100%">
+                                                    <f:selectItem itemLabel="SELECT CATEGORY" itemValue="-1"/>
+                                                    <f:selectItems value="#{categoryBean.getValidParent()}" var="selected" itemValue="#{selected.categoryID}" itemLabel="#{selected.categoryName}"/>
+                                                </p:selectOneMenu>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-3 ui-md-3 ui-sm-12">
+                                                <p:outputLabel value="Description" for="details" style="width: 100%; font-weight: bold" />
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-9 ui-md-9 ui-sm-12" >
+                                                <p:inputTextarea id="details" value="#{categoryBean.category.categoryDescription}"  style="width: 100%"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-3 ui-md-3 ui-sm-12"></h:panelGroup>
+                                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-9 ui-md-9 ui-sm-12">
+                                                <p:commandButton id="addButton" class="Hbuttons"  style="float: right" value="#{categoryBean.category.selected? 'UPDATE' : 'ADD'}" action="#{categoryBean.addCategory()}" update="ServiceEntityForm ServiceEntityListForm" />
+                                            </h:panelGroup>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" class="ui-g-12 ui-lg-2 ui-md-1">
+
+                        </h:panelGroup>
+
+                    </div> 
+                </div>
+            </h:form>
+            <h:form id="ServiceEntityListForm">
+                <div class="ui-g" style="border-radius: 0px; margin: 0px; padding: 0px">
+                    <div class="ui-g-12" style="border-radius: 0px; margin: 0px; padding: 0px">
+                        <div  style="border-radius: 0px; padding:  0px">
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <p:outputLabel id="msgs" value="#{applicationMessageBean.message.messageText}" styleClass="#{applicationMessageBean.message.messageType}" escape="false"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <p:dataTable id="datalist" 
+                                         rowKey="#{item.categoryID}"
+                                         paginator="true"
+                                         reflow="true"
+                                         rows="10"
+                                         var ="item"
+                                         value ="#{categoryBean.categories}"
+                                         paginatorPosition="bottom"
+                                         rowsPerPageTemplate="10,20,30,40,50"
+                                         style="border-radius: 0px; margin: 20px"
+                                         >
+                                <f:facet name="header">
+                                    <h:outputText value="CATEGORIES" style="font-size: 20px; font-weight: bold; margin-bottom: 20px; display: block"/>
+
+
+                                    <p:commandButton ajax="false"  class="Hbuttons" value="SAVE"    action="#{categoryBean.saveCategoryList()}"/>
+                                    <p:commandButton class="Hbuttons" value="RELOAD"  action="#{categoryBean.reloadCategoryList()}"/>
+                                    <p:commandButton class="Hbuttons" ajax="false" value="HISTORY" action="#{categoryBean.gotoAuditTrailPage()}"/>
+
+                                    <p:commandButton id="approveButton" type="button" class="Hbuttons" value="APPROVE" action="#{categoryBean.activate()}"/>
+                                    <p:commandButton id="deleteButton" type="button" class="Hbuttons red-btn" value="DELETE" action="#{categoryBean.deleteCategory()}"/>
+                                    <p:button class="Hbuttons" value="VIEW" outcome="/inventory/createCategory.xhtml"/>
+                                    <p:button class="Hbuttons" outcome="/inventory/categoryGrid.xhtml" icon="fa fa-th" style="float: right; width: inherit"/>
+                                </f:facet>
+                                <p:ajax event="rowSelect"   update="deleteButton approveButton"/>
+                                <p:ajax event="rowUnselect" update="deleteButton approveButton"/>
+                                <p:column width="5%">
+                                    <f:facet name="header">
+                                        <h:outputText escape="false" value="Select"/>
+                                    </f:facet> 
+                                    <p:selectBooleanCheckbox id="partnerCheckBox" immediate="true" value="#{item.selected}" valueChangeListener="#{categoryBean.categorySelected}" >
+                                        <p:ajax update=":ServiceEntityForm ServiceEntityListForm" event="change"/>
+                                    </p:selectBooleanCheckbox>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Name"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.categoryName}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Parent"/>
+                                    </f:facet>
+                                    <h:outputText value="#{categoryBean.findCategoryName(item.parentCategoryID)}"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </h:form>
+        </ui:fragment>
+
+
+        <ui:fragment rendered="#{!settingBean.showFormInListView}">
+            <h:form id="ServiceEntityListForm2">
+                <div class="card" style=" top: 200px; border-radius: 0px; margin: 0px; padding-top: 20px">
+                    <div>
+                        <p:commandButton ajax="false" id="newButton" class="Hbuttons" value="New" actionListener="#{categoryBean.prepareCreate()}" action="/inventory/createCategory.xhtml"/>
+                        <p:button class="Hbuttons" value="VIEW" outcome="/inventory/createCategory.xhtml" rendered="#{categoryBean.category.selected}"/>
+                        <p:commandButton class="Hbuttons" value="RELOAD" action="#{categoryBean.reloadCategoryList()}"/>
+                        <p:commandButton class="Hbuttons" ajax="false" value="HISTORY" action="#{categoryBean.gotoAuditTrailPage()}"/>
+                        <p:commandButton id="approveButton2" type="button" class="Hbuttons" value="APPROVE" action="#{categoryBean.activate()}"/>
+                        <p:commandButton id="deleteButton2" type="button" class="Hbuttons red-btn" value="DELETE" action="#{categoryBean.deleteCategory()}"/>
+                        
+                        <p:button class="Hbuttons" outcome="/inventory/createCategory.xhtml" rendered="#{categoryBean.category.selected}" icon="fa fa-pencil-square-o" style="float: right; width: 50px"/>
+                        <p:button class="Hbuttons" outcome="/inventory/categoryGrid.xhtml" icon="fa fa-th" style="float: right; width: 50px"/>
+                    </div>
+                </div>
+                <div class="ui-g" style="border-radius: 0px; margin: 0px; padding: 0px">
+                    <div class="ui-g-12" style="border-radius: 0px; margin: 0px; padding: 0px">
+                        <div  style="border-radius: 0px; padding:  0px">
+                            <p:growl id="growl2" showDetail="true" sticky="true" />  
+                            <table>
+                                <tr>
+                                    <td>
+                                        <p:outputLabel id="msgs2" value="#{applicationMessageBean.message.messageText}" styleClass="#{applicationMessageBean.message.messageType}" escape="false"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <p:dataTable id="datalists" 
+                                         rowKey="#{item2.categoryID}"
+                                         paginator="true"
+                                         reflow="true"
+                                         rows="10"
+                                         var ="item2"
+                                         value ="#{categoryBean.categories}"
+                                         selection="#{categoryBean.category}"
+                                         selectionMode="single"
+                                         paginatorPosition="bottom"
+                                         rowsPerPageTemplate="10,20,30,40,50"
+                                         style="border-radius: 0px; margin: 20px"
+                                         >
+                                <f:facet name="header">
+                                    <h:outputText value="CATEGORIES" style="font-size: 20px; font-weight: bold;"/>
+                                </f:facet>
+                                <p:ajax event="rowSelect"   update=":ServiceEntityListForm2:deleteButton2 :ServiceEntityListForm2:approveButton2"/>
+                                <p:ajax event="rowUnselect" update=":ServiceEntityListForm2:deleteButton2 :ServiceEntityListForm2:approveButton2"/>
+                                <p:column width="5%">
+                                    <f:facet name="header">
+                                        <h:outputText escape="false" value="Select"/>
+                                    </f:facet> 
+                                    <p:selectBooleanCheckbox id="partnerCheckBox2" immediate="true" value="#{item2.selected}" valueChangeListener="#{categoryBean.categorySelected}" >
+                                        <p:ajax update="ServiceEntityListForm2" event="change"/>
+                                    </p:selectBooleanCheckbox>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Name"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item2.categoryName}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Parent"/>
+                                    </f:facet>
+                                    <h:outputText value="#{categoryBean.findCategoryName(item2.parentCategoryID)}"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </h:form>
+        </ui:fragment>
+
+    </ui:define>   
+</ui:composition>

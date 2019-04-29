@@ -1,0 +1,162 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Dashboard</ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinBar() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#64B5F6', '#FFD54F'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    borderWidth: 0.1,
+                    borderColor: 'bdbdbd',
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="ui-g dashboard">            
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-1">
+                    <span class="overview-box-name">Registered Tenants</span>
+                    <span class="overview-box-count">150</span>
+                    <span class="overview-box-badge"></span>
+                    <p:graphicImage name="images/dashboard/chart-1.svg" library="barcelona-layout" />
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-2">
+                    <span class="overview-box-name">Active Licenses</span>
+                    <span class="overview-box-count">532</span>
+                    <span class="overview-box-badge">+90%</span>
+                    <p:graphicImage name="images/dashboard/chart-2.svg" library="barcelona-layout" />
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-3">
+                    <span class="overview-box-name">Expiring Licenses</span>
+                    <span class="overview-box-count">64</span>
+                    <span class="overview-box-badge">7%</span>
+                    <p:graphicImage name="images/dashboard/chart-3.svg" library="barcelona-layout" />
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-4">
+                    <span class="overview-box-name">Expired Licenses</span>
+                    <span class="overview-box-count">45</span>
+                    <span class="overview-box-badge">3%</span>
+                    <p:graphicImage name="images/dashboard/chart-4.svg" library="barcelona-layout" />
+                </div>
+            </div>
+
+            <div class="ui-g-12 activity-feed">
+                <p:panel header="TOP SELLING PRODUCTS" styleClass="ui-shadow-content">
+                    <h3>Application Licenses</h3>
+                    <p>By License Revenue (In 000's)</p>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-3">
+                            <span>Finance</span>
+                            <div class="knob income">$1,900</div>
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <span>StorFront</span>
+                            <div class="knob tax">$1,750</div>
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <span>Eduware</span>
+                            <div class="knob invoice">$1,255</div>
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <span>People Center</span>
+                            <div class="knob expense">$1,250</div>
+                        </div>
+                    </div>
+                </p:panel>
+            </div>
+
+            <div class="ui-g-12 ui-md-8">
+                <div class="card">
+                    <h:form>
+                        <p:panel header="Top 5 Tenants By Sales Revenue" styleClass="chart-panel">
+                            <p:chart type="bar" model="#{chartDemoView.barModel}" responsive="true"/>
+                        </p:panel>
+                    </h:form>
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-4">
+                <p:panel header="Revenue" style="height:100%" class="ui-shadow-content ">
+                    <div class="activity-header">
+                        <div class="ui-g">
+                            <div class="ui-g-6">
+                                <span style="font-weight:bold">License Revenue</span>
+                                <p>For Current Bills</p>
+                            </div>
+                            <div class="ui-g-6" style="text-align:right">
+                                <p:commandButton type="button" icon="fa fa-refresh" />
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="activity-list">
+                        <li>
+                            <div class="count" style="width: 180px">$12,780,000.00</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Active Licenses</div>
+                                <div class="ui-g-6">67.43%</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="width: 180px; background-color:#e91e63">$2,895,000.00</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Expiring Licenses</div>
+                                <div class="ui-g-6">15.27%</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="width: 180px; background-color:#673ab7">$3,275,900.00</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Expired Licenses</div>
+                                <div class="ui-g-6">17.28%</div>
+                            </div>
+                        </li>
+                    </ul>
+                </p:panel>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

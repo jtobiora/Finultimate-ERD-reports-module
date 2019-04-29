@@ -1,0 +1,51 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 9, 2016, 1:38:23 PM
+    Author     : ObinnaAsuzu
+*/
+
+.ui-layout-north {
+    z-index:20 !important;
+    overflow:visible !important;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+    overflow:visible !important;
+}
+
+.datalist-noborder .ui-widget-content {
+    border: none;
+}
+
+
+.ui-steps .ui-steps-item {
+    width: 24%;
+    padding: 10px;
+}
+
+.ui-state-highlight {
+    text-shadow: none !important;
+}
+
+
+
+.ui-steps.custom .ui-steps-item .ui-menuitem-link {
+    height: 50px;
+    padding: 0 0;
+}
+
+.ui-steps.custom .ui-steps-item .ui-steps-number {
+    background-color: transparent;
+    font-size: 0px;
+    color: transparent;
+    display: inline-block;
+    width: 30px;
+    border-radius: 10px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+

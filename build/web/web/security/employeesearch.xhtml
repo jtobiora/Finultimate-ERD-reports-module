@@ -1,0 +1,247 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title"></ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinBar() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#64B5F6', '#FFD54F'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    borderWidth: 0.1,
+                    borderColor: 'bdbdbd',
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+
+        <script type="text/javascript" src="/scripts/input_validator.js"/>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+
+            .fixed-size {
+                table-layout: fixed;
+                word-wrap: break-word;
+            }
+
+            .information-mssg {
+                color: blue;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .error-mssg {
+                color: red;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .success-mssg {
+                color: green;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .ui-selectoneradio.ui-grid-responsive .ui-grid-col-4,
+            .ui-selectmanycheckbox.ui-grid-responsive .ui-grid-col-4{
+                padding-bottom: 10px;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+
+<h:form id="empsearchform">
+<p:panel>
+<table>
+<tr>
+<td>
+<p:outputLabel value="Employee Search" styleClass="format" style="font-weight:bold;"/>
+</td>
+</tr>
+<tr>
+<td>
+<p:outputLabel value="#{applicationMessageBean.message.messageText}" styleClass="#{applicationMessageBean.message.messageType}"/>
+</td>
+</tr>
+</table>
+</p:panel>
+<table width="95%" border="0" cellspacing="1" cellpadding="1">
+<tr>
+<td>
+<table>
+<tr>
+<td width="25%">
+<div align="right">
+<p:outputLabel escape="false" styleClass="format" value="Employee Code:"/>
+</div>
+</td>
+<td width="75%">
+<div align="left">
+<p:inputText id="emplCodeTxt" immediate="true" value="#{recruitmentBean.employee.employeeCode}" size="30" styleClass="format" style="text-transform:uppercase;">                                         <f:converter converterId="convertToUpper"></f:converter>                                     </p:inputText>
+</div>
+</td>
+</tr>
+<tr>
+<td width="25%">
+<div align="right">
+<p:outputLabel escape="false" styleClass="format" value="Last Name:"/>
+</div>
+</td>
+<td width="75%">
+<div align="left">
+<p:inputText id="lastNameTxt" immediate="true" value="#{curriculumVitaeBean.curriculum.lastName}" size="30" styleClass="format" style="text-transform:uppercase;">                                         <f:converter converterId="convertToUpper"></f:converter>                                     </p:inputText>
+</div>
+</td>
+</tr>
+<tr>
+<td width="25%">
+<div align="right">
+<p:outputLabel escape="false" styleClass="format" value="First Name:"/>
+</div>
+</td>
+<td width="75%">
+<div align="left">
+<p:inputText id="firstNameTxt" immediate="true" value="#{curriculumVitaeBean.curriculum.firstName}" size="30" styleClass="format" style="text-transform:uppercase;">                                         <f:converter converterId="convertToUpper"></f:converter>                                     </p:inputText>
+</div>
+</td>
+</tr>
+<tr>
+<td width="25%">
+<div align="right">
+<p:outputLabel escape="false" styleClass="format" value="Middle Name:"/>
+</div>
+</td>
+<td width="75%">
+<div align="left">
+<p:inputText id="middleNameTxt" immediate="true" value="#{curriculumVitaeBean.curriculum.middleName}" size="30" styleClass="format" style="text-transform:uppercase;">                                         <f:converter converterId="convertToUpper"></f:converter>                                     </p:inputText>
+</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<table>
+<tr>
+<td nowrap="nowrap">
+<h:panelGroup>
+<p:commandButton ajax="false" value="Search" action="#{recruitmentBean.searchEmployee}" icon="ui-icon-search" styleClass="teal-btn"/>
+<p:commandButton ajax="false" value="View Details" action="#{recruitmentBean.viewEmployeeDetail}" icon="ui-icon-search" styleClass="teal-btn"/>
+<p:commandButton ajax="false" value="Back" action="#{userManagerBean.returnToRequestingResource}" icon="ui-icon-arrow-back" styleClass="cyan-btn"/>
+</h:panelGroup>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td width="99%" valign="top">
+<p:dataTable id="dataTable" widgetVar="empeeTable" styleClass="fixed-size" value="#{curriculumVitaeBean.curriculumVitaeList}" var="cvitae" paginator="true" rows="10"  reflow="true">
+<f:facet name="header">
+<p:outputLabel value="Resume Table"/>
+</f:facet>
+<p:column>
+<f:facet name="header">
+<p:outputLabel escape="false" value="Select"/>
+</f:facet>
+<h:selectBooleanCheckbox id="cvsrchCheckBox" immediate="true" value="#{cvitae.selected}" valueChangeListener="#{userManagerBean.resumeSelectedForEmpSearch}">
+<p:ajax event="change" update=":empsearchform"/>
+</h:selectBooleanCheckbox>
+</p:column>
+<p:column>
+<f:facet name="header">
+<p:outputLabel escape="false" value="Last Name"/>
+</f:facet>
+<p:outputLabel id="lastNameResCol" value="#{cvitae.lastName}"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<p:outputLabel escape="false" value="First Name"/>
+</f:facet>
+<p:outputLabel id="firstNameResCol" value="#{cvitae.firstName}"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<p:outputLabel escape="false" value="Middle Name"/>
+</f:facet>
+<p:outputLabel id="middleNameResCol" value="#{cvitae.middleName}"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<p:outputLabel escape="false" value="Sex"/>
+</f:facet>
+<p:outputLabel id="sexResCol" value="#{cvitae.personalInfo.sex}"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<p:outputLabel escape="false" value="Mobile Phone"/>
+</f:facet>
+<p:outputLabel id="mobileResCol" value="#{cvitae.personalInfo.mobilePhone}"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<p:outputLabel escape="false" value="Email"/>
+</f:facet>
+<p:outputLabel id="emailResCol" value="#{cvitae.personalInfo.publicEmailAddress}"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<p:outputLabel escape="false" value="Country"/>
+</f:facet>
+<p:outputLabel id="countryResCol" value="#{cvitae.personalInfo.countryName}"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<p:outputLabel escape="false" value="State/Province"/>
+</f:facet>
+<p:outputLabel id="stateResCol" value="#{cvitae.personalInfo.stateDesc}"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<p:outputLabel escape="false" value="City"/>
+</f:facet>
+<p:outputLabel id="cityResCol" value="#{cvitae.personalInfo.cityDesc}"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<p:outputLabel escape="false" value="Street Address"/>
+</f:facet>
+<p:outputLabel id="streetResCol" value="#{cvitae.personalInfo.streetAddress}"/>
+</p:column>
+</p:dataTable>
+</td>
+</tr>
+</table>
+</h:form>
+</ui:define>   
+</ui:composition>

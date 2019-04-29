@@ -1,0 +1,226 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title"></ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinBar() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#64B5F6', '#FFD54F'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    borderWidth: 0.1,
+                    borderColor: 'bdbdbd',
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+
+        <script type="text/javascript" src="/scripts/input_validator.js"/>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+
+            .fixed-size {
+                table-layout: fixed;
+                word-wrap: break-word;
+            }
+
+            .information-mssg {
+                color: blue;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .error-mssg {
+                color: red;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .success-mssg {
+                color: green;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .ui-selectoneradio.ui-grid-responsive .ui-grid-col-4,
+            .ui-selectmanycheckbox.ui-grid-responsive .ui-grid-col-4{
+                padding-bottom: 10px;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+
+<body>
+<h:form id="menuForm">
+<p:panel>
+<table>
+<tr>
+<td>
+<p:outputLabel value="Create Menu" styleClass="format" style="font-weight:bold;"/>
+</td>
+</tr>
+<tr>
+<td>
+<p:outputLabel value="#{applicationMessageBean.message.messageText}" styleClass="#{applicationMessageBean.message.messageType}"/>
+</td>
+</tr>
+</table>
+</p:panel>
+<table border="0" align="left">
+<tr>
+<td>
+<table border="0" align="left">
+<tr>
+<td>
+<p:fieldset legend="Menu Panel" toggleable="true" toggleSpeed="500" style="margin-bottom:20px">
+<table width="99%" border="0" align="left">
+<tr>
+<td width="25%" nowrap="nowrap">
+<div align="left">
+<h:outputText escape="false" styleClass="format" value="Menu Name/Label:"/>
+</div>
+</td>
+<td width="75%">
+<div align="left">
+<p:inputText id="menuNameTxt" immediate="true" value="#{privilegeBean.appMenu.menuLabel}" size="30" styleClass="format"/>
+</div>
+</td>
+</tr>
+<tr>
+<td width="25%">
+<div align="right">
+<h:outputText escape="false" styleClass="format" value="Subsystem: "/>
+</div>
+</td>
+<td width="75%">
+<div align="left">
+<p:selectOneMenu id="subsysCombo" immediate="true" value="#{privilegeBean.appMenu.subsystemID}" valueChangeListener="#{privilegeBean.subsystemMenuSelected}">
+<f:selectItem itemValue="-1" itemLabel="--Select One--"/>
+<f:selectItems value="#{privilegeBean.subsystemItemList}"/>
+<p:ajax update="menuForm"/>
+</p:selectOneMenu>
+</div>
+</td>
+</tr>
+<tr>
+<td width="25%" nowrap="nowrap">
+<div align="left">
+<h:outputText escape="false" styleClass="format" value="Approval Levels:"/>
+</div>
+</td>
+<td width="75%">
+<div align="left">
+<p:inputText id="approvedStatusTxt" immediate="true" value="#{privilegeBean.appMenu.approvedStatusID}" size="30" styleClass="format"/>
+</div>
+</td>
+</tr>
+</table>
+</p:fieldset>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td align="left">
+<p:panelGrid columns="5">
+<p:commandButton ajax="false" value="&lt;&lt; Prev" action="#{privilegeBean.loadMenuPreviousHistoricalState}"/>
+<p:commandButton ajax="false" value="Next &gt;&gt;" action="#{privilegeBean.loadMenuNextHistoricalState}"/>
+<p:commandButton value="Back" ajax="false" action="#{privilegeBean.backToRolesPage}" icon="ui-icon-arrow-back" styleClass="cyan-btn"/>
+<p:commandButton ajax="false" value="Done" action="#{sessionDataReinitBean.navigateHome}" icon="ui-icon-home" styleClass="deep-orange-btn"/>
+</p:panelGrid>
+</td>
+</tr>
+<tr>
+<td>
+<p:dataTable id="menuDataTable" styleClass="fixed-size" value="#{privilegeBean.selectedMenuList}" var="menu" paginator="true" rows="10"  reflow="true">
+<f:facet name="header">
+<h:outputText value="Menu Table"/>
+</f:facet>
+<p:column width="10%">
+<f:facet name="header">
+<h:outputText escape="false" value="Select"/>
+</f:facet>
+<p:selectBooleanCheckbox id="menuCheckBox" immediate="true" value="#{menu.selected}" valueChangeListener="#{privilegeBean.menuSelected}">
+<p:ajax update=":menuForm" event="change"/>
+</p:selectBooleanCheckbox>
+</p:column>
+<p:column>
+<f:facet name="header">
+<h:outputText escape="false" value="Menu Name"/>
+</f:facet>
+<h:outputText id="menuNameCol" value="#{menu.menuLabel}"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<h:outputText escape="false" value="Subsystem"/>
+</f:facet>
+<h:outputText id="subsysNameCol" value="#{menu.subsystemName}"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<h:outputText escape="false" value="Approval Levels"/>
+</f:facet>
+<h:outputText id="approvedStatusCol" value="#{menu.approvedStatusID}"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<h:outputText escape="false" value="Approved"/>
+</f:facet>
+<p:selectBooleanCheckbox value="#{menu.activated}" disabled="true"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<h:outputText escape="false" value="Action Type"/>
+</f:facet>
+<p:outputLabel value="#{menu.actionTrail.actionType}"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<h:outputText escape="false" value="Created By"/>
+</f:facet>
+<p:outputLabel value="#{menu.actionTrail.approver}"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<h:outputText escape="false" value="Create Date"/>
+</f:facet>
+<p:outputLabel value="#{menu.actionTrail.entryDate}"/>
+</p:column>
+</p:dataTable>
+</td>
+</tr>
+</table>
+</h:form>
+</body>
+</ui:define>   
+</ui:composition>

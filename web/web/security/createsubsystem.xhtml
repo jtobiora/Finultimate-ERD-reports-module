@@ -1,0 +1,188 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title"></ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinBar() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#64B5F6', '#FFD54F'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    borderWidth: 0.1,
+                    borderColor: 'bdbdbd',
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+
+        <script type="text/javascript" src="/scripts/input_validator.js"/>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+
+            .fixed-size {
+                table-layout: fixed;
+                word-wrap: break-word;
+            }
+
+            .information-mssg {
+                color: blue;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .error-mssg {
+                color: red;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .success-mssg {
+                color: green;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .ui-selectoneradio.ui-grid-responsive .ui-grid-col-4,
+            .ui-selectmanycheckbox.ui-grid-responsive .ui-grid-col-4{
+                padding-bottom: 10px;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+
+<body>
+<table border="0" cellspacing="1" cellpadding="1">
+<tr>
+<td width="25%">
+<h:form id="createSubsystemForm">
+<p:panel>
+<table>
+<tr>
+<td>
+<p:outputLabel value="Create Subsystem" styleClass="format" style="font-weight:bold;"/>
+</td>
+</tr>
+<tr>
+<td>
+<p:outputLabel value="#{applicationMessageBean.message.messageText}" styleClass="#{applicationMessageBean.message.messageType}"/>
+</td>
+</tr>
+</table>
+</p:panel>
+<table width="99%" border="0" cellspacing="1" cellpadding="1">
+<tr>
+<td width="25%">
+<div align="right">
+<h:outputText escape="false" styleClass="format" value="Application Name: "/>
+</div>
+</td>
+<td width="75%">
+<div align="left">
+<p:selectOneMenu id="applicationCombo" immediate="true" value="#{privilegeBean.subsystem.applicationSystemID}" valueChangeListener="#{privilegeBean.applicationSystemMenuSelected}">
+<f:selectItem itemValue="-1" itemLabel="--Select One--"/>
+<f:selectItems value="#{privilegeBean.applicationSystemItemList}"/>
+<p:ajax update="subsystemTable"/>
+</p:selectOneMenu>
+</div>
+</td>
+</tr>
+<tr>
+<td width="25%">
+<div align="right">
+<h:outputText escape="false" styleClass="format" value="Subsystem Name: "/>
+</div>
+</td>
+<td width="75%">
+<div align="left">
+<p:inputText id="subsysNameTxt" value="#{privilegeBean.subsystem.subsystemName}" size="30" styleClass="format"/>
+</div>
+</td>
+</tr>
+</table>
+<br/>
+<table width="99%">
+<tr>
+<td align="left">
+<h:panelGroup>
+<p:commandButton ajax="false" value="Add Subsystem" action="#{privilegeBean.addSubsystem}" rendered="#{menuManagerBean.hasRWPrivilege(menuManagerBean.systemMap['NEW_SUBSYS_MENU_ITEM'])}" icon="ui-icon-add" styleClass="blue-grey-btn"/>
+<p:commandButton ajax="false" value="Save/Update" action="#{privilegeBean.saveSubsystemList}" rendered="#{menuManagerBean.hasRWPrivilege(menuManagerBean.systemMap['NEW_SUBSYS_MENU_ITEM'])}" icon="ui-icon-save" style="width:auto;margin-bottom:10px;"/>
+<p:commandButton ajax="false" value="Approve" action="#{privilegeBean.activate}" rendered="#{menuManagerBean.hasRWPrivilege(menuManagerBean.systemMap['NEW_SUBSYS_MENU_ITEM'])}" icon="ui-icon-check" styleClass="green-btn"/>
+<p:commandButton ajax="false" value="Delete" action="#{privilegeBean.removeSubsystem}" rendered="#{menuManagerBean.hasRWPrivilege(menuManagerBean.systemMap['NEW_SUBSYS_MENU_ITEM'])}" icon="ui-icon-delete" styleClass="red-btn"/>
+<p:commandButton ajax="false" value="History" action="#{privilegeBean.gotoSubsystemAuditTrailPage}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['AUDIT_TRAIL_MENU_ITEM'])}" icon="ui-icon-history" styleClass="cyan-btn"/>
+<p:commandButton ajax="false" value="Back" action="#{privilegeBean.backToRolesPage}" icon="ui-icon-arrow-back" styleClass="cyan-btn"/>
+<p:commandButton ajax="false" value="Done" action="#{sessionDataReinitBean.navigateHome}" icon="ui-icon-home" styleClass="deep-orange-btn"/>
+</h:panelGroup>
+</td>
+</tr>
+<tr>
+<td align="left" width="60%" valign="top">
+<p:dataTable id="subsystemTable" styleClass="fixed-size" value="#{privilegeBean.selectedSubsystemList}" var="subsys" paginator="true" rows="10"  reflow="true">
+<f:facet name="header">
+<h:outputText value="Subsystem Table"/>
+</f:facet>
+<p:column width="7%">
+<f:facet name="header">
+<h:outputText escape="false" value="Select"/>
+</f:facet>
+<p:selectBooleanCheckbox id="uSelectBox" immediate="true" value="#{subsys.selected}" valueChangeListener="#{privilegeBean.subsystemSelected}">
+<p:ajax update=":createSubsystemForm" event="change"/>
+</p:selectBooleanCheckbox>
+</p:column>
+<p:column>
+<f:facet name="header">
+<h:outputText escape="false" value="Subsystem Name"/>
+</f:facet>
+<h:outputText id="subsysNameCol" value="#{subsys.subsystemName}"/>
+</p:column>
+<p:column>
+<f:facet name="header">
+<h:outputText escape="false" value="Application Name"/>
+</f:facet>
+<h:outputText id="applicationNameCol" value="#{subsys.applicationName}"/>
+</p:column>
+<p:column width="7%">
+<f:facet name="header">
+<h:outputText escape="false" value="Approved"/>
+</f:facet>
+<p:selectBooleanCheckbox value="#{subsys.activated}" disabled="true"/>
+</p:column>
+</p:dataTable>
+</td>
+</tr>
+</table>
+</h:form>
+</td>
+</tr>
+</table>
+</body>
+</ui:define>   
+</ui:composition>

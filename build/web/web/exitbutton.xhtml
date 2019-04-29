@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui">
+    <table width="100%">
+        <tr>
+            <td>
+                <div align="right">
+                    <p:commandButton ajax="false" value="Home" action="#{sessionDataReinitBean.navigateHome}"/>
+                </div>
+            </td>
+            <td>
+                <div align="left">
+                    <p:menuButton value="Panel State">
+                        <p:menuitem ajax="false" value="Hide Panel" action="#{menuManagerBean.hideReportPanel}" />
+                        <p:menuitem ajax="false" value="Show Panel" action="#{menuManagerBean.showReportPanel}" />
+                    </p:menuButton>
+                </div>
+            </td>
+        </tr>
+    </table>
+</html>

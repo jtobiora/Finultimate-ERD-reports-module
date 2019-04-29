@@ -1,0 +1,44 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Aug 28, 2016, 2:56:32 PM
+    Author     : ObinnaAsuzu
+*/
+
+.fixed-size {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+.information-mssg {
+    color: blue;
+    font: 15px Helvetica;
+    font-style: italic;
+}
+
+.error-mssg {
+    color: red;
+    font: 15px Helvetica;
+    font-style: italic;
+}
+
+.success-mssg {
+    color: green;
+    font: 15px Helvetica;
+    font-style: italic;
+}
+
+.ui-layout-pane {
+    border: 0;
+}
+
+.noScrolllayoutUnit .ui-layout-unit-content{
+    overflow: hidden;
+}
+
+.ui-icon-ultisureCore {
+    background-image: url(images/insurance-icon.jpg) !important;
+}

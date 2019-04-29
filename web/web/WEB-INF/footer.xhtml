@@ -1,0 +1,32 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <style>
+        .footer {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            padding: 0px;
+            background-color: #efefef;
+            text-align: center;
+            margin: 0px;
+        } 
+    </style>
+    <div class="footer">
+        <div class="card" style="margin: 0px; border-radius: 0px;">
+            <div class="ui-g footer-content">
+                <div class="ui-g-12 ui-md-6">
+                    <span><p:outputLabel value="  S3-Systems #{menuManagerBean.getCurrentYear()} All Rights Reserved" styleClass="format" style="font-weight:bold;"/></span>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <a href="https://www.facebook.com/groups/atbtechsoft" style="float: right; margin-right: 10px; font-size: 30px"><i class="fa fa-facebook"></i></a>
+                    <a href="http://twitter.com/atbtechsoft"  style="float: right; margin-right: 10px; font-size: 30px"><i class="fa fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</ui:composition>

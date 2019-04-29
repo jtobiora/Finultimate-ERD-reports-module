@@ -1,0 +1,82 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pa="http://primefaces.org/barcelona">
+    <div class="layout-sidebar #{guestPreferences.darkMenu ? 'layout-sidebar-dark': ''}">
+        <pa:tabMenu>
+            <pa:tab icon="home" title="StorFront">
+                <h:form id="menu-form">
+                    <pa:menu widgetVar="me">
+                        <p:menuitem id="home_menu" value="Home" icon="home" outcome="/crmhome.xhtml" />
+                        <p:menuitem id="product_menu" value="Products" icon="shopping" outcome="/inventory/productList.xhtml" />
+                        <p:menuitem id="category_menu" value="Catgories" icon="&#xE871;" outcome="/inventory/categoryList.xhtml" />
+                        <p:menuitem id="setting_menu" value="Settings" icon="settings" outcome="/settings/settings.xhtml" />
+                    </pa:menu>
+                </h:form>
+            </pa:tab>
+            <pa:tab icon="settings" title="#{menuManagerBean.systemMap['SETUP_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['SETUP_MENU_ITEM'])}">
+                <h:form id="sys-setp-menu-form">
+                    <pa:menu widgetVar="me">
+                        <p:submenu label="#{menuManagerBean.systemMap['ORG_SETUP_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['ORG_SETUP_MENU_ITEM'])}">
+                            <p:menuitem value="#{menuManagerBean.systemMap['COMPANY_ID_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['COMPANY_ID_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoCompanyIdentity}" />
+                            <p:menuitem value="#{menuManagerBean.systemMap['BRANCHES_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['BRANCHES_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoBranchSetup}"/>
+                            <p:menuitem value="#{menuManagerBean.systemMap['DIVISION_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['DIVISION_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoBusinessDivision}"/>
+                            <p:menuitem value="#{menuManagerBean.systemMap['DEPT_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['DEPT_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoDepartmentSetup}"/>
+                            <p:menuitem value="#{menuManagerBean.systemMap['RELSHIP_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['RELSHIP_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoRelationshipSetup}"/>
+                            <p:menuitem value="#{menuManagerBean.systemMap['TITLES_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['TITLES_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoTitleSetup}"/>
+                        </p:submenu>
+
+                        <p:submenu label="#{menuManagerBean.systemMap['SERV_PROVIDRS_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['SERV_PROVIDRS_MENU_ITEM'])}">
+                            <p:menuitem value="#{menuManagerBean.systemMap['BANKS_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['BANKS_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoBankSetup}" />
+                        </p:submenu>
+
+                        <p:submenu label="#{menuManagerBean.systemMap['LOCATION_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['LOCATION_MENU_ITEM'])}">
+                            <p:menuitem value="#{menuManagerBean.systemMap['COUNTRIES_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['COUNTRIES_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoCountrySetup}" />
+                            <p:menuitem value="#{menuManagerBean.systemMap['STATES_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['STATES_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoStateSetup}" />
+                            <p:menuitem value="#{menuManagerBean.systemMap['CITIES_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['CITIES_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoCitySetup}" />
+                            <p:menuitem value="#{menuManagerBean.systemMap['CURRENCIES_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['CURRENCIES_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoCurrencySetup}" />
+                        </p:submenu>
+
+                        <p:submenu label="#{menuManagerBean.systemMap['MESSAGING_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['MESSAGING_MENU_ITEM'])}">
+                            <p:menuitem value="Message Setup" ajax="false" action="#{menuManagerBean.gotoMailSetup}"/>
+                            <p:menuitem ajax="false" value="#{menuManagerBean.systemMap['MSSG_TRGRS_MENU_ITEM']}" action="#{menuManagerBean.gotoMessagingTriggerSetup}"/>
+                            <p:menuitem ajax="false" value="#{menuManagerBean.systemMap['RPTS_ALRT_SCHD_MENU_ITEM']}" action="#{menuManagerBean.gotoMessagingScheduleSetup}"/>
+                        </p:submenu>
+                    </pa:menu>
+                </h:form>
+            </pa:tab>
+            <pa:tab icon="security" title="System Admin" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['SECURITY_MENU_ITEM'])}">
+                <h:form id="sys-ad-menu-form">
+                    <pa:menu widgetVar="me">
+                        <p:submenu label="System Entities">
+                            <p:submenu label="#{menuManagerBean.systemMap['NEW_ENTITIES_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['NEW_ENTITIES_MENU_ITEM'])}">
+                                <p:menuitem value="#{menuManagerBean.systemMap['NEW_USR_ACCT_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['NEW_USR_ACCT_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoCreateUser}" />
+                                <p:menuitem value="#{menuManagerBean.systemMap['NEW_USR_ROLS_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['NEW_USR_ROLS_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoCreateRole}" />
+                                <p:menuitem value="#{menuManagerBean.systemMap['NEW_PRIVLG_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['NEW_PRIVLG_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoCreateMenu}" />
+                                <p:menuitem value="#{menuManagerBean.systemMap['NEW_APPLIC_SYS_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['NEW_APPLIC_SYS_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoCreateApplication}" />
+                                <p:menuitem value="#{menuManagerBean.systemMap['NEW_SUBSYS_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['NEW_SUBSYS_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoCreateSubsystem}" />
+                                <p:menuitem value="#{menuManagerBean.systemMap['NEW_SYS_ROLS_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['NEW_SYS_ROLS_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoUserRole}" />
+                            </p:submenu>
+                            <p:submenu label="#{menuManagerBean.systemMap['MANAGE_USR_ACCT_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['NEW_ENTITIES_MENU_ITEM'])}">
+                                <p:menuitem value="#{menuManagerBean.systemMap['MANAGE_USR_ACCT_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['MANAGE_USR_ACCT_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoManageUserAccount}" />
+                                <p:menuitem value="#{menuManagerBean.systemMap['VIEW_LOGGEDIN_USERS_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['VIEW_LOGGEDIN_USERS_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoLoggedOnUsers}" />
+                            </p:submenu>
+                        </p:submenu>
+
+                        <p:submenu label="Definitions">
+                            <p:submenu label="#{menuManagerBean.systemMap['AUDIT_TRAIL_ADM_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['AUDIT_TRAIL_ADM_MENU_ITEM'])}">
+                                <p:menuitem value="#{menuManagerBean.systemMap['AUDIT_TRAIL_MENU_ITEM']}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['AUDIT_TRAIL_MENU_ITEM'])}" ajax="false" action="#{menuManagerBean.gotoAuditTrail}"/>
+                            </p:submenu>
+                            <p:submenu label="Roles" rendered="#{userManagerBean.userAccount.roleList.size() > 1}">
+                                <p:menuitem value="Switch Roles" ajax="false" action="#{menuManagerBean.gotoRoleSwitcher}"/>
+                            </p:submenu>
+                        </p:submenu>
+                    </pa:menu>
+                </h:form>
+            </pa:tab>
+        </pa:tabMenu>
+    </div>
+</ui:composition>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>Finultimate</title>
+        <script type="text/javascript">
+            $(function () {
+                var menu = $('#menu');
+
+                $('#menu-button').on('click', function (e) {
+                    if (menu.hasClass('lmenu-active')) {
+                        menu.addClass('fadeOutUp');
+
+                        setTimeout(function () {
+                            menu.removeClass('fadeOutUp fadeInDown lmenu-active');
+                        }, 500);
+                    } else {
+                        menu.addClass('lmenu-active fadeInDown');
+                    }
+                    e.preventDefault();
+                });
+
+                menu.find('a').on('click', function () {
+                    menu.removeClass('fadeOutUp fadeInDown lmenu-active');
+                });
+            });
+        </script>
+    </h:head>
+
+    <h:body styleClass="landing-body">
+        <div id="home" class="landing-wrapper">
+            <div id="header">
+                <div class="pre-header">
+                    <div class="pre-header-content">
+                        <h:link outcome="/landing">
+                            <p:graphicImage url="/images/finultimate.fw.png" width="230px"/>
+                        </h:link>
+
+                        <a id="menu-button" href="#">
+                            <span class="fa fa-bars"></span>
+                        </a>
+
+                        <ul id="menu" class="animated">
+                            <li>
+                                <a href="#home">HOME</a>
+                            </li>
+                            <li>
+                                <a href="#features">FEATURES</a>
+                            </li>
+                            <li>
+                                <a href="#aboutus">ABOUT US</a>
+                            </li>
+                            <li>
+                                <h:form>
+                                    <p:commandLink value="LOGOUT" ajax="false" action="#{userManagerBean.logOutUser}"/>
+                                </h:form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="header-content">
+                    <h1>FINULTIMATE ERP SUITE</h1>
+                    <h2>Business Efficiency Engineered!</h2>
+                    <p:commandButton type="button" value="LEARN MORE" styleClass="secondary" />
+                </div>
+            </div>
+
+            <div id="features">
+                <div class="features-content">
+                    <h2><p:outputLabel value="General Applications" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['GENERAL_APPLICATIONS_MENU_ITEM'])}"/></h2>
+
+                    <h:form>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/financials.png" height="100"/>
+                                <h3><p:commandLink value="Financials" ajax="false" action="#{menuManagerBean.selectFinancialMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['FINANCIALS_MENU_ITEM'])}"/></h3>
+                            </div>
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/hrns.png" height="100"/>
+                                <h3><p:commandLink value="Human Resources" ajax="false"  action="#{menuManagerBean.selectHumanResourcesMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['HUMAN_RESOURCE_MENU_ITEM'])}"/></h3>
+                            </div>
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/crm.png" height="100"/>
+                                <h3><p:commandLink value="CRM" ajax="false" action="#{menuManagerBean.selectCustomerRelationsMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['CUSTOMER_RELATIONS_MENU_ITEM'])}"/></h3>
+                            </div>
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/procurement.png" height="100"/>
+                                <h3><p:commandLink value="Procurement" ajax="false" action="#{menuManagerBean.selectProcurementMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['PROCUREMENT_MENU_ITEM'])}"/></h3>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+
+            <div id="features">
+                <div class="features-content">
+                    <h:form>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/inventory.png" height="100"/>
+                                <h3><p:commandLink value="Inventory" ajax="false" action="#{menuManagerBean.selectInventoryMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['INVENTORY_MENU_ITEM'])}"/></h3>
+                            </div>
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/fixed-asset.png" height="100"/>
+                                <h3><p:commandLink value="Fixed Asset Management" ajax="false" action="#{menuManagerBean.selectFixedAssetMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['FIXED_ASSET_MENU_ITEM'])}"/></h3>
+                            </div>
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/investment.png" height="100"/>
+                                <h3><p:commandLink value="Investment &amp; Portfolio Mgt" ajax="false" action="#{menuManagerBean.selectInvestmentMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['INVESTMENT_SYS_MENU_ITEM'])}"/></h3>
+                            </div>
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/health.png" height="100"/>
+                                <h3><p:commandLink value="Health Information System" ajax="false" action="#{menuManagerBean.selectHealthInformationSysMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['HEALTH_INFO_SYSTEM_MENU_ITEM'])}"/></h3>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+
+            <div id="features">
+                <div class="features-content">
+                    <h2><p:outputLabel value="Insurance" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['INSURANCE_SYSTEM_MENU_ITEM'])}"/></h2>
+
+                    <h:form>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/ultisure_life.png" height="100"/>
+                                <h3><p:commandLink value="Life Insurance" ajax="false" action="#{menuManagerBean.selectLifeInsuranceMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['LIFE_INSURANCE_MENU_ITEM'])}"/></h3>
+                            </div>
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/ultisure_annuity.png" height="100"/>
+                                <h3><p:commandLink value="Annuity Insurance" ajax="false"  action="#{menuManagerBean.selectAnnuityInsuranceMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['ANNUITY_INSURANCE_MENU_ITEM'])}"/></h3>
+                            </div>
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/ultisure_nonlife.png" height="100"/>
+                                <h3><p:commandLink value="Nonlife Insurance" ajax="false" action="#{menuManagerBean.selectNonlifeInsuranceMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['NONLIFE_INSURANCE_MENU_ITEM'])}"/></h3>
+                            </div>
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/ultisure_health.png" height="100"/>
+                                <h3><p:commandLink value="Health Insurance" ajax="false" action="#{menuManagerBean.selectHealthInsuranceMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['HEALTH_INSURANCE_MENU_ITEM'])}"/></h3>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+
+
+            <div id="features">
+                <div class="features-content">
+                    <h2><p:outputLabel value="Education" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['EDUCATION_SYSTEM_MENU_ITEM'])}"/></h2>
+
+                    <h:form>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/eduware_record.png" height="100"/>
+                                <h3><p:commandLink value="Academic Record Management" ajax="false" action="#{menuManagerBean.selectAcademicRecordsMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['ACADEMIC_RECORD_SYS_MENU_ITEM'])}"/></h3>
+                            </div>
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/eduware_library.png" height="100"/>
+                                <h3><p:commandLink value="Library Management" ajax="false" action="#{menuManagerBean.selectLibraryManagementMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['LIBRARY_SYS_MGT_MENU_ITEM'])}"/></h3>
+                            </div>
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/eduware_elearning.png" height="100"/>
+                                <h3><p:commandLink value="E-Learning" ajax="false" action="#{menuManagerBean.selectEduwareMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['ELEARNING_SYS_MENU_ITEM'])}"/></h3>
+                            </div>
+                            <div class="ui-g-12 ui-md-3">
+                                <p:graphicImage url="/images/landing/eduware_student.png" height="100"/>
+                                <h3><p:commandLink value="Student Affairs" ajax="false" action="#{menuManagerBean.selectHealthInsuranceMenu}" rendered="#{menuManagerBean.hasPrivilege(menuManagerBean.systemMap['STUDENT_AFFAIRS_MENU_ITEM'])}"/></h3>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+
+        </div>
+
+        <h:outputStylesheet name="css/animate.css" library="barcelona-layout" />
+        <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="barcelona-layout" />
+    </h:body>
+
+</html>

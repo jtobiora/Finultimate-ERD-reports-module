@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+    <converter>
+        <description>A Converter for converting Strings to Uppercase</description>
+        <converter-id>convertToUpper</converter-id>
+        <converter-class>
+        com.rsdynamix.web.util.converter.StringAsUpper
+        </converter-class>
+    </converter>
+    
+    <component>
+        <component-type>org.primefaces.component.BarcelonaMenu</component-type>
+        <component-class>org.primefaces.barcelona.component.Menu</component-class>
+    </component>
+    
+     <component>
+        <component-type>org.primefaces.component.BarcelonaTabMenu</component-type>
+        <component-class>org.primefaces.barcelona.component.TabMenu</component-class>
+    </component>
+    
+     <component>
+        <component-type>org.primefaces.component.BarcelonaTab</component-type>
+        <component-class>org.primefaces.barcelona.component.Tab</component-class>
+    </component>
+    
+    <render-kit>
+        <renderer>
+            <component-family>org.primefaces.component</component-family>
+            <renderer-type>org.primefaces.component.BarcelonaMenuRenderer</renderer-type>
+            <renderer-class>org.primefaces.barcelona.component.MenuRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <component-family>org.primefaces.component</component-family>
+            <renderer-type>org.primefaces.component.BarcelonaTabMenuRenderer</renderer-type>
+            <renderer-class>org.primefaces.barcelona.component.TabMenuRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+</faces-config>

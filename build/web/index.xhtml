@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui='http://xmlns.jcp.org/jsf/facelets'
+      xmlns:f='http://xmlns.jcp.org/jsf/core'
+      xmlns:h='http://xmlns.jcp.org/jsf/html'
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:form>
+        <h:body>
+            <p:dataTable var="cart" value="#{testBean.posCartItemList}">
+                <p:column headerText="Id">
+                    <h:outputText value="#{cart.itemCostPRice}" />
+                </p:column>
+
+                <p:column headerText="Year">
+                    <h:outputText value="#{cart.itemDiscount}" />
+                </p:column>
+
+                <p:column headerText="Brand">
+                    <h:outputText value="#{cart.itemQuantity}" />
+                </p:column>
+            </p:dataTable>
+        </h:body>
+        <p:commandButton ajax="false" value="Cart Items" action="#{testBean.CartItems()}"/>
+    </h:form>
+    
+</html>
+

@@ -1,0 +1,132 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <ui:define name="title"></ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinBar() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#64B5F6', '#FFD54F'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    borderWidth: 0.1,
+                    borderColor: 'bdbdbd',
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+
+        <script type="text/javascript" src="/scripts/input_validator.js"/>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+
+            .fixed-size {
+                table-layout: fixed;
+                word-wrap: break-word;
+            }
+
+            .information-mssg {
+                color: blue;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .error-mssg {
+                color: red;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .success-mssg {
+                color: green;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .ui-selectoneradio.ui-grid-responsive .ui-grid-col-4,
+            .ui-selectmanycheckbox.ui-grid-responsive .ui-grid-col-4{
+                padding-bottom: 10px;
+            }
+        </style>
+        <style type="text/css">
+            .Hbuttons{
+                display: inline-block;
+                text-align:center;
+                align-items: center;
+                box-shadow: none !important;
+                border-radius:0px !important;
+                font-size: 16px !important;
+                color:white !important;
+                height: 35px !important;
+                width: 100px;
+                line-height:35px;
+                vertical-align: central;
+                text-transform:  uppercase !important;
+            }
+            .main-body{
+                background-color: rgb(230,230,230) !important;
+            }
+
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="SettingsEntityForm">
+            <div class="card" style=" top: 200px; border-radius: 0px; margin: 0px; padding-top: 20px">
+                <div>
+                    <p:commandButton id="newButton" class="Hbuttons" value="SAVE" action="#{settingBean.save()}" update="SettingsEntityForm" rendered="#{settingBean.formMode == 'EDIT'}"/>
+                    <p:commandButton id="editButton"  class="Hbuttons" value="edit" action="#{settingBean.prepareEdit()}" update="SettingsEntityForm" rendered="#{settingBean.formMode == 'VIEW'}"/> 
+                    <p:button class="Hbuttons" value="CLOSE" outcome="/inventory/productGrid.xhtml" />
+                </div>
+            </div>
+            <h:panelGroup layout="block" class="ui-g-12 ui-lg-1 ui-md-1">
+
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="ui-g-12 ui-lg-10 ui-md-10">
+                <div class="card ui-g">
+                    <div class="ui-g-12">
+                        <h:panelGroup layout="block" class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12">
+                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-2 ui-md-2 ui-sm-12" >
+                                <p:outputLabel  value="Show forms in list View: " for="showFormInListView" style="width: 100%; font-weight: bold"/>
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-10 ui-md-10 ui-sm-12">
+                                <p:selectBooleanCheckbox id="showFormInListView" value="#{settingBean.showFormInListView}" rendered="#{settingBean.formMode == 'EDIT'}"/>
+                                <h:outputText class="for-control" value="#{settingBean.showFormInListView}" rendered="#{settingBean.formMode == 'VIEW'}" style=" display: block; width: 100%"/>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </div> 
+
+                </div>
+            </h:panelGroup>
+
+        </h:form>
+    </ui:define>   
+</ui:composition> 

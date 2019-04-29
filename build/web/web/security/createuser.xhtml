@@ -1,0 +1,232 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title"></ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinBar() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#64B5F6', '#FFD54F'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    borderWidth: 0.1,
+                    borderColor: 'bdbdbd',
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+
+        <script type="text/javascript" src="/scripts/input_validator.js"/>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+
+            .fixed-size {
+                table-layout: fixed;
+                word-wrap: break-word;
+            }
+
+            .information-mssg {
+                color: blue;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .error-mssg {
+                color: red;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .success-mssg {
+                color: green;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .ui-selectoneradio.ui-grid-responsive .ui-grid-col-4,
+            .ui-selectmanycheckbox.ui-grid-responsive .ui-grid-col-4{
+                padding-bottom: 10px;
+            }
+            .Hbuttons{
+                display: inline-block;
+                text-align:center;
+                align-items: center;
+                box-shadow: none !important;
+                border-radius:0px !important;
+                font-size: 16px !important;
+                color:white !important;
+                height: 35px !important;
+                width: 100px;
+                line-height:35px;
+                vertical-align: central;
+                text-transform:  uppercase !important;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="createUserForm">
+            <div class="card" style=" top: 200px; border-radius: 0px; margin: 0px; padding-top: 20px">
+                <div>
+                    <!--MENU BUTTONS-->
+                    <p:commandButton ajax="false" class="Hbuttons" value="Save" action="#{userManagerBean.insertUserAccount}" rendered="#{menuManagerBean.hasRWPrivilege(menuManagerBean.systemMap['NEW_USR_ACCT_MENU_ITEM'])}" icon="ui-icon-save"/>
+                    <p:commandButton ajax="false" class="deep-orange-btn Hbuttons" value="Done" action="#{sessionDataReinitBean.navigateHome}" icon="ui-icon-home" />
+                </div>
+            </div>
+            <div class="ui-g" >
+                <div class="ui-g-12">
+                    <h:panelGroup layout="block" class="ui-g-12 ui-lg-12 ui-md-12">
+                        <p:outputLabel value="#{applicationMessageBean.message.messageText}" styleClass="#{applicationMessageBean.message.messageType}"/>
+                    </h:panelGroup>
+                     
+                    <h:panelGroup layout="block" class="ui-g-1 ui-lg-2 ui-md-1">
+
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" class="ui-g-12 ui-lg-8 ui-md-11 ui-sm-12">
+                        <div class="card" style="border-radius: 0px; padding:  0px">
+                            <p:growl id="growl" showDetail="true" sticky="true" />  
+                            <div class="ui-g" style=" padding:  0px; margin: 0px;">
+                                <div class="ui-g-12 ui-sm-12">
+                                    <div class="ui-g">
+                                        <h:panelGroup layout="block" class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12">
+                                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12">
+                                                <h:outputText id="applicationMessageID" escape="false" styleClass="errorMessage"/>
+                                                <h:outputText value="#{applicationMessages.applicationMessage}" styleClass="format"/>
+                                                <!--USERNAME START-->
+                                                <h:panelGroup layout="block" class="ui-g-12 ui-lg-3 ui-md-3 ui-sm-12" >
+                                                    <!--LABEL-->
+                                                    <h:outputLabel for="logonId" escape="false" value="User Name"  styleClass="format"/>
+                                                </h:panelGroup>
+                                                <h:panelGroup layout="block" class="ui-g-12 ui-lg-9 ui-md-9 ui-sm-12" >
+                                                    <!--VALUE-->
+                                                    <p:inputText id="logonId" class="for-control" placeholder="LOGIN USERNAME" value="#{userManagerBean.account.userName}" style="width: 100%" styleClass="format"/>
+                                                </h:panelGroup>
+                                                <!--USERNAME END-->
+
+                                                <!--PASSWORD START-->
+                                                <h:panelGroup layout="block" class="ui-g-12 ui-lg-3 ui-md-3 ui-sm-12" >
+                                                    <!--LABEL-->
+                                                    <h:outputLabel for="password" value="Password" class="for-control"/>
+                                                </h:panelGroup>
+                                                <h:panelGroup layout="block" class="ui-g-12 ui-lg-9 ui-md-9 ui-sm-12" >
+                                                    <!--VALUE-->
+                                                    <p:password id="password" class="for-control" placeholder="LOGIN PASSWORD" value="#{userManagerBean.account.password}" style="width:100%"/>
+                                                </h:panelGroup>
+                                                <!--PASSWORD END-->
+
+                                                <!--CONFIRM PASSWORD START-->
+                                                <h:panelGroup layout="block" class="ui-g-12 ui-lg-3 ui-md-3 ui-sm-12" >
+                                                    <!--LABEL-->
+                                                    <h:outputLabel for="confirmedpassword" value="Confirm Password"/>
+                                                </h:panelGroup>
+                                                <h:panelGroup layout="block" class="ui-g-12 ui-lg-9 ui-md-9 ui-sm-12" >
+                                                    <!--VALUE-->
+                                                    <p:password id="confirmedpassword" class="for-control" placeholder="CONFIRM PASSWORD" value="#{userManagerBean.account.confirmedPassword}" style="width:100%"/>
+                                                </h:panelGroup>
+                                                <!--CONFIRM PASSWORD END-->
+
+                                                <!--EMAIL START-->
+                                                <h:panelGroup layout="block" class="ui-g-12 ui-lg-3 ui-md-3 ui-sm-12" >
+                                                    <!--LABEL-->
+                                                    <h:outputLabel for="emailAddrId" value="Email Address: "/>
+                                                </h:panelGroup>
+                                                <h:panelGroup layout="block" class="ui-g-12 ui-lg-9 ui-md-9 ui-sm-12" >
+                                                    <!--VALUE-->
+                                                    <p:inputText onblur="" id="emailAddrId" placeholder="EMAIL ADDRESS"  value="#{userManagerBean.account.emailAddress}" style="width:100%"/>
+                                                </h:panelGroup>
+                                                <!--EMAIL END-->
+
+                                                <h:panelGroup layout="block" class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12">
+                                                    <!--TAB-->
+                                                    <p:tabView style="border: none !important">
+                                                        <p:tab title="User Roles">
+                                                            <div class="ui-g">
+                                                                <h:panelGroup layout="block" class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12">
+                                                                    <h:panelGroup layout="block" class="ui-g-12 ui-lg-4 ui-md-6 ui-sm-12" >
+                                                                        <p:selectOneMenu id="roleMenu" style="width: 100%"  immediate="true" valueChangeListener="#{privilegeBean.roleMenuSelected}" value="#{userManagerBean.account.roleID}">
+                                                                            <f:selectItem itemValue="" itemLabel="SELECT ROLE"/>
+                                                                            <f:selectItems value="#{privilegeBean.roleItemList}"/>
+                                                                            <p:ajax update="roleTable"/>
+                                                                        </p:selectOneMenu>
+                                                                    </h:panelGroup>
+                                                                    <h:panelGroup layout="block" class="ui-g-12 ui-lg-4 ui-md-6 ui-sm-12" >
+                                                                        <p:commandButton ajax="false" value="Add" action="#{userManagerBean.addRoleToUserAccount}" icon="ui-icon-add" styleClass="blue-grey-btn"/>
+                                                                        <p:commandButton ajax="false" value="Delete" action="#{userManagerBean.removeRoleToUserAccount}" icon="ui-icon-delete" styleClass="red-btn"/>
+                                                                    </h:panelGroup>
+                                                                    <h:panelGroup layout="block" class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" >
+                                                                        <p:dataTable id="roleTable" 
+                                                                                     styleClass="fixed-size" 
+                                                                                     value="#{userManagerBean.account.roleList}" 
+                                                                                     var="role" 
+                                                                                     rendered="#{userManagerBean.account.roleList.size() gt 0}"
+                                                                                     paginator="true" 
+                                                                                     paginatorAlwaysVisible="false"
+                                                                                     rows="10"  
+                                                                                     paginatorPosition="bottom"
+                                                                                     reflow="true">
+                                                                            <p:column width="20%">
+                                                                                <f:facet name="header">
+                                                                                    <h:outputText escape="false" value="Select"/>
+                                                                                </f:facet>
+                                                                                <p:selectBooleanCheckbox id="uSelectBox" value="#{role.selected}" valueChangeListener="#{userManagerBean.userRoleSelected}">
+                                                                                    <p:ajax update=":createUserForm"/>
+                                                                                </p:selectBooleanCheckbox>
+                                                                            </p:column>
+                                                                            <p:column>
+                                                                                <f:facet name="header">
+                                                                                    <h:outputText escape="false" value="Role Name"/>
+                                                                                </f:facet>
+                                                                                <h:outputText id="uPrivilegeDescId" value="#{role.roleName}"/>
+                                                                            </p:column>
+                                                                        </p:dataTable>
+                                                                    </h:panelGroup>
+
+
+                                                                </h:panelGroup>
+                                                            </div>
+                                                        </p:tab>
+                                                    </p:tabView>
+                                                </h:panelGroup>
+                                            </h:panelGroup>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" class="ui-g-12 ui-lg-2 ui-md-1">
+
+                    </h:panelGroup>
+                </div> 
+            </div>
+        </h:form>
+    </ui:define>   
+</ui:composition>

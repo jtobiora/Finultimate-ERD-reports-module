@@ -1,0 +1,154 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <ui:define name="title"></ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinBar() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#64B5F6', '#FFD54F'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    borderWidth: 0.1,
+                    borderColor: 'bdbdbd',
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    renderer: $.jqplot.BarRenderer,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+
+        <script type="text/javascript" src="/scripts/input_validator.js"/>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+
+            .fixed-size {
+                table-layout: fixed;
+                word-wrap: break-word;
+            }
+
+            .information-mssg {
+                color: blue;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .error-mssg {
+                color: red;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .success-mssg {
+                color: green;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .ui-selectoneradio.ui-grid-responsive .ui-grid-col-4,
+            .ui-selectmanycheckbox.ui-grid-responsive .ui-grid-col-4{
+                padding-bottom: 10px;
+            }
+        </style>
+        <style type="text/css">
+            .Hbuttons{
+                display: inline-block;
+                text-align:center;
+                align-items: center;
+                box-shadow: none !important;
+                border-radius:0px !important;
+                font-size: 16px !important;
+                color:white !important;
+                height: 35px !important;
+                width: 100px;
+                line-height:35px;
+                vertical-align: central;
+                text-transform:  uppercase !important;
+            }
+            .main-body{
+                background-color: rgb(230,230,230) !important;
+            }
+
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="ServiceEntityGridForm">
+            <div class="card" style=" top: 200px; border-radius: 0px; margin: 0px; padding-top: 20px">
+                <div>
+                    <p:commandButton id="newButton" class="Hbuttons" value="New" action="#{productBean.CreateNew()}" update="ServiceEntityGridForm"/>
+                    <p:button class="Hbuttons" outcome="/inventory/createProduct.xhtml" rendered="#{productBean.product.selected}" icon="fa fa-pencil-square-o" style="float: right; width: 50px"/>
+                    <p:button class="Hbuttons" outcome="/inventory/productList.xhtml" icon="fa fa-th-list" style="float: right; width: 50px"/>
+                </div>
+            </div>
+            <div class="ui-g" >
+                <div class="ui-g-12">
+                    <ui:repeat value="#{productBean.products}" var="product">
+                        <p:commandLink ajax="false" action="createProduct.xhtml" actionListener="#{productBean.selectCurrent()}" oncomplete="createProduct.xhtml" style="text-decoration: none ;color: black" >
+                            <f:setPropertyActionListener value="#{product}" target="#{productBean.product}" />
+                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-3 ui-md-4 ui-sm-12">
+
+                                <div class="card" style="border-radius: 0px; padding:  0px ; margin: 2px; height: 150px; max-height: 150px;">
+                                    <div class="ui-g" style=" padding:  0px; margin: 0px;">
+                                        <h:panelGroup layout="block" class="ui-g-4 ui-lg-4 ui-md-4 ui-sm-4">
+                                            <p:graphicImage id="image" url="/image/#{product.productImageName}" width="100px" height="100px"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup layout="block" class="ui-g-8 ui-lg-8 ui-md-8 ui-sm-8">
+                                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-3 ui-md-3 ui-sm-12" >
+                                                <p:outputLabel  value="Name" for="name" style="width: 100%; font-weight: bold"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-9 ui-md-9 ui-sm-12" >
+                                                <h:outputText id="name" class="for-control" value="#{product.productName}" style=" display: block; width: 100%"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-3 ui-md-3 ui-sm-12" >
+                                                <p:outputLabel  value="Price" for="price" style="width: 100%; font-weight: bold"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-9 ui-md-9 ui-sm-12" >
+                                                <h:outputText id="price" class="for-control" value="#{product.productPrice}" style=" display: block; width: 100%"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-3 ui-md-3 ui-sm-12" >
+                                                <p:outputLabel for="category" value="Category" style="width: 100%; font-weight: bold"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="ui-g-12 ui-lg-9 ui-md-9 ui-sm-12" style="overflow-wrap: break-word">
+                                                <h:outputText id="category"  value="#{categoryBean.findCategoryName(product.productCategory)}" />
+                                            </h:panelGroup>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                        </p:commandLink>
+                    </ui:repeat>
+
+
+                </div> 
+
+            </div>
+        </h:form>
+    </ui:define>   
+</ui:composition>

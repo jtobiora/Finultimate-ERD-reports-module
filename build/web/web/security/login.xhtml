@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>Finultimate ERP</title>
+        <h:outputScript name="js/ripple.js" library="barcelona-layout" />
+        <h:outputScript name="js/layout.js" library="barcelona-layout" />
+        
+        <style type="text/css">
+            .ui-layout, .ui-layout-doc, .ui-layout-unit, .ui-layout-wrap, .ui-layout-bd, .ui-layout-hd{
+                border: none;
+            }
+
+            .fixed-size {
+                table-layout: fixed;
+                word-wrap: break-word;
+            }
+
+            .information-mssg {
+                color: blue;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .error-mssg {
+                color: red;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+
+            .success-mssg {
+                color: green;
+                font: 15px Helvetica;
+                font-style: italic;
+            }
+        </style>
+    </h:head>
+
+    <h:body styleClass="login-body">
+
+        <h:form id="loginForm">
+            <div class="login-panel ui-fluid">
+                <div class="ui-g">
+                    <div class="ui-g-12 login-header">
+                        <h1>LOGIN</h1>
+                        <h2>Welcome to Finultimate</h2>
+                        <p:graphicImage name="images/s3_logo.png" height="70" library="barcelona-layout" />
+                        <p:outputLabel value="#{applicationMessageBean.message.messageText}" styleClass="#{applicationMessageBean.message.messageType}"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <h:panelGroup styleClass="md-inputfield">
+                            <p:inputText value="#{userManagerBean.userAccount.userName}"/>
+                            <label>Username</label>
+                        </h:panelGroup>
+                    </div>
+                    <div class="ui-g-12">
+                        <h:panelGroup styleClass="md-inputfield">
+                            <p:password value="#{userManagerBean.userAccount.pinPlusOneTimePassword}" feedback="false"/>
+                            <label>Password</label>
+                        </h:panelGroup>
+                    </div>
+                    <div class="ui-g-12 chkbox-container">
+                        <p:commandLink id="forgotLoginBtn" value="Forgot My Login?"/>
+                        <p:overlayPanel style="height:200px" showCloseIcon="true" dismissable="false" for="forgotLoginBtn">
+                            <p:panel header="Login Recovery Panel">
+                                <table width="60%" border="0" align="center">
+                                    <tr>
+                                        <td align="right" width="40%">
+                                            <div class="label">
+                                                <label for="emailAddrTxt">Email</label>
+                                            </div>
+                                        </td>
+                                        <td align="right">
+                                            <div class="input">
+                                                <p:inputText id="emailAddrTxt" size="60" immediate="true" value="#{userManagerBean.emailAddress}" style="text-transform:uppercase;">                                         <f:converter converterId="convertToUpper"></f:converter>                                     </p:inputText>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" align="right">
+                                            <div class="buttons">
+                                                <p:commandButton update="loginForm:passRecoveryMssg" value="Send" action="#{userManagerBean.passwordRecovery}"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" align="right">
+                                            <div class="buttons">
+                                                <p:outputLabel id="passRecoveryMssg" value="#{userManagerBean.passwordRecoveryMssg}"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:overlayPanel>
+                    </div>
+                    <div class="ui-g-12 button-container">
+                        <p:commandButton ajax="false" value="Sign In" icon="ui-icon-person" action="#{userManagerBean.loginUser()}"/>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+        <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="barcelona-layout" />
+        <h:outputStylesheet name="css/ripple.css" library="barcelona-layout" />
+    </h:body>
+
+</html>

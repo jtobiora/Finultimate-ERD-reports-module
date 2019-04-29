@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://services.licensing.business.s3systems.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.licensing.business.s3systems.com/">
+
+<xs:element name="ApplicationNotFoundException" type="tns:ApplicationNotFoundException"/>
+
+<xs:element name="Exception" type="tns:Exception"/>
+
+<xs:element name="LicenseExpiredException" type="tns:LicenseExpiredException"/>
+
+<xs:element name="LicenseNotYetActivatedException" type="tns:LicenseNotYetActivatedException"/>
+
+<xs:element name="TenantNotFoundException" type="tns:TenantNotFoundException"/>
+
+<xs:element name="TransactionsExceededException" type="tns:TransactionsExceededException"/>
+
+<xs:element name="validateTenantLicenseForLogin" type="tns:validateTenantLicenseForLogin"/>
+
+<xs:element name="validateTenantLicenseForLoginResponse" type="tns:validateTenantLicenseForLoginResponse"/>
+
+<xs:element name="validateTenantLicenseForUserCreate" type="tns:validateTenantLicenseForUserCreate"/>
+
+<xs:element name="validateTenantLicenseForUserCreateResponse" type="tns:validateTenantLicenseForUserCreateResponse"/>
+
+<xs:element name="validateTenantLicensesForLogin" type="tns:validateTenantLicensesForLogin"/>
+
+<xs:element name="validateTenantLicensesForLoginResponse" type="tns:validateTenantLicensesForLoginResponse"/>
+
+<xs:complexType name="validateTenantLicensesForLogin">
+<xs:sequence>
+<xs:element name="tenantDomainName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="validateTenantLicensesForLoginResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:businessTenantDTO" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="businessTenantDTO">
+<xs:sequence>
+<xs:element name="appLogoFileContent" type="xs:base64Binary" minOccurs="0"/>
+<xs:element name="applicationIDList" type="xs:long" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="contactAddress" type="xs:string" minOccurs="0"/>
+<xs:element name="contactPhone" type="xs:string" minOccurs="0"/>
+<xs:element name="emailAddress" type="xs:string" minOccurs="0"/>
+<xs:element name="maximumNoOfTransactions" type="xs:int"/>
+<xs:element name="tenancyLicenseList" type="tns:tenancyLicenseDTO" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="tenantCityID" type="xs:int"/>
+<xs:element name="tenantCode" type="xs:string" minOccurs="0"/>
+<xs:element name="tenantCountryID" type="xs:int"/>
+<xs:element name="tenantDomainName" type="xs:string" minOccurs="0"/>
+<xs:element name="tenantID" type="xs:long"/>
+<xs:element name="tenantName" type="xs:string" minOccurs="0"/>
+<xs:element name="tenantStateCode" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="tenancyLicenseDTO">
+<xs:sequence>
+<xs:element name="applicationID" type="xs:long"/>
+<xs:element name="applicationLogoBytes" type="xs:base64Binary" minOccurs="0"/>
+<xs:element name="applicationLogoFile" type="xs:string" minOccurs="0"/>
+<xs:element name="applicationName" type="xs:string" minOccurs="0"/>
+<xs:element name="billingOptionName" type="xs:string" minOccurs="0"/>
+<xs:element name="billingTypeID" type="xs:long"/>
+<xs:element name="billingTypeOptionID" type="xs:long"/>
+<xs:element name="currencyCode" type="xs:string" minOccurs="0"/>
+<xs:element name="expiryDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="numberOfRegisteredUsers" type="xs:long"/>
+<xs:element name="onboardingDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="tenancyLicenseID" type="xs:long"/>
+<xs:element name="tenancyStatusType" type="tns:tenancyStatusType" minOccurs="0"/>
+<xs:element name="tenantID" type="xs:long"/>
+<xs:element name="totalBillAmount" type="xs:double"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="LicenseNotYetActivatedException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="LicenseExpiredException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="TenantNotFoundException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ApplicationNotFoundException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="TransactionsExceededException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="Exception">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="validateTenantLicenseForLogin">
+<xs:sequence>
+<xs:element name="tenantDomainName" type="xs:string" minOccurs="0"/>
+<xs:element name="applicationSystemID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="validateTenantLicenseForLoginResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:businessTenantDTO" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="validateTenantLicenseForUserCreate">
+<xs:sequence>
+<xs:element name="tenantDomainName" type="xs:string" minOccurs="0"/>
+<xs:element name="applicationSystemID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="validateTenantLicenseForUserCreateResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:businessTenantDTO" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:simpleType name="tenancyStatusType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="NONE"/>
+<xs:enumeration value="PENDING"/>
+<xs:enumeration value="ACTIVE"/>
+<xs:enumeration value="DEACTIVATED"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>

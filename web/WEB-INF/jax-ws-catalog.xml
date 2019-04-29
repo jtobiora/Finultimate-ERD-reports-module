@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://test.finultimate.com:8080/CommandCenterConnector/CommandCenterConnector?wsdl" uri="wsdl/test.finultimate.com_8080/CommandCenterConnector/CommandCenterConnector.wsdl"/>
+    <system systemId="http://test.finultimate.com:8080/CommandCenterConnector/CommandCenterConnector?xsd=1" uri="wsdl/test.finultimate.com_8080/CommandCenterConnector/CommandCenterConnector.xsd_1.xsd"/>
+</catalog>
